@@ -35,7 +35,7 @@ Then install as follows:
 
 To build the documentation with Sphinx:
 
-#. ``$ easy_install Sphinx
+#. ``$ easy_install Sphinx``
 #. ``$ python setup.py build_sphinx``
 
 The latest development version can also be installed with:
