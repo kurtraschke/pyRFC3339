@@ -98,7 +98,7 @@ def timedelta_seconds(td):
 
 def timezone(utcoffset):
     '''
-    Return a string reprenseting the timezone offset.
+    Return a string representing the timezone offset.
     Remaining seconds are rounded to the nearest minute.
 
     >>> timezone(3600)
