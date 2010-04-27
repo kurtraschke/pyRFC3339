@@ -1,10 +1,10 @@
-syntax: glob
+*.pyc
 *.orig
 *.rej
 *~
 *.pyo
-*.pyc
 *.egg-info
+*.egg
 .coverage
 .noseids
 docs/build
@@ -15,7 +15,4 @@ dist
 eggs
 parts
 develop-eggs
-
-
-syntax: regexp
-.*\#.*\#$
+.DS_Store
