@@ -46,7 +46,7 @@ class FixedOffset(tzinfo):
             minutes *= -1
         self.__offset = timedelta(hours = hours,
                                   minutes = minutes)
-        self.__name = "UTC%s" % (timezone(timedelta_seconds(self.__offset)))
+        self.__name = "UTC" + timezone(timedelta_seconds(self.__offset))
 
     def dst(self, dt):
         '''
@@ -70,7 +70,7 @@ class FixedOffset(tzinfo):
         return self.__name
     
     def __repr__(self):
-        return "<%s>" % self.tzname(None)
+        return "<{0}>".format(self.tzname(None))
 
 
 def timedelta_seconds(td):
@@ -118,6 +118,7 @@ def timezone(utcoffset):
     minutes = round(float(seconds) / 60)
 
     if utcoffset >= 0:
-        return '+%02d:%02d' % (hours, minutes)
+        sign = '+'
     else:
-        return '-%02d:%02d' % (hours, minutes)
+        sign = '-'
+    return '{0}{1:02d}:{2:02d}'.format(sign, int(hours), int(minutes))
