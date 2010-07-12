@@ -14,6 +14,10 @@ class FixedOffset(tzinfo):
     >>> FixedOffset(4,30)
     <UTC+04:30>
 
+    >>> tz = FixedOffset(-5,0)
+    >>> tz.dst(None)
+    datetime.timedelta(0)
+
     The class tries to do the right thing with the sign of the time zone offset:
 
     >>> FixedOffset(-9,30)
