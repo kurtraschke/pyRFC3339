@@ -53,7 +53,7 @@ class TestCore():
         Test generating timestamps with microseconds.
 
         '''
-        dt = datetime(2009, 01, 01, 10, 02, 03, 500000, pytz.utc)
+        dt = datetime(2009, 1, 1, 10, 2, 3, 500000, pytz.utc)
         timestamp = generate(dt, microseconds = True)
         eq_(timestamp, '2009-01-01T10:02:03.500000Z')
 
