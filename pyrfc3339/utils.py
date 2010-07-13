@@ -2,6 +2,7 @@ from __future__ import division
 
 from datetime import timedelta, tzinfo
 
+
 class FixedOffset(tzinfo):
     '''
     Represent a timezone with a fixed offset from UTC and no adjustment for
@@ -18,7 +19,8 @@ class FixedOffset(tzinfo):
     >>> tz.dst(None)
     datetime.timedelta(0)
 
-    The class tries to do the right thing with the sign of the time zone offset:
+    The class tries to do the right thing with the sign
+    of the time zone offset:
 
     >>> FixedOffset(-9,30)
     <UTC-09:30>
@@ -44,8 +46,8 @@ class FixedOffset(tzinfo):
             raise ValueError("minutes must not be negative")
         if hours < 0:
             minutes *= -1
-        self.__offset = timedelta(hours = hours,
-                                  minutes = minutes)
+        self.__offset = timedelta(hours=hours,
+                                  minutes=minutes)
         self.__name = "UTC" + timezone(timedelta_seconds(self.__offset))
 
     def dst(self, dt):
@@ -54,21 +56,21 @@ class FixedOffset(tzinfo):
 
         '''
         return timedelta(0)
-    
+
     def utcoffset(self, dt):
         '''
         Return offset from UTC.
 
         '''
         return self.__offset
-    
+
     def tzname(self, dt):
         '''
         Return name of timezone.
-        
+
         '''
         return self.__name
-    
+
     def __repr__(self):
         return "<{0}>".format(self.tzname(None))
 
@@ -84,7 +86,7 @@ def timedelta_seconds(td):
     -3600
     >>> timedelta_seconds(timedelta(hours=1, minutes=30))
     5400
-    >>> timedelta_seconds(timedelta(hours=1, minutes=30, 
+    >>> timedelta_seconds(timedelta(hours=1, minutes=30,
     ... microseconds=300000))
     5400
     >>> timedelta_seconds(timedelta(hours=1, minutes=30,
@@ -97,7 +99,7 @@ def timedelta_seconds(td):
     seconds = td.seconds
     microseconds = td.microseconds
 
-    return int(round((days * 86400) + seconds + (microseconds/1000000)))
+    return int(round((days * 86400) + seconds + (microseconds / 1000000)))
 
 
 def timezone(utcoffset):

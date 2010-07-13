@@ -5,6 +5,7 @@ import pytz
 
 from pyrfc3339.utils import FixedOffset
 
+
 def parse(timestamp, utc=False, produce_naive=False):
     '''
     Parse an :RFC:`3339`-formatted timestamp and return a
@@ -22,7 +23,7 @@ def parse(timestamp, utc=False, produce_naive=False):
     >>> parse('2009-01-01T14:01:02-04:00')
     datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=<UTC-04:00>)
 
-    However, if `parse()`  is called with `utc=True`, then the returned 
+    However, if `parse()`  is called with `utc=True`, then the returned
     `datetime` will be normalized to UTC (and its tzinfo parameter set to
     `pytz.utc`), regardless of the input timezone.
 
@@ -45,8 +46,8 @@ def parse(timestamp, utc=False, produce_naive=False):
     '''
 
     parse_re = re.compile(r'''^(?:
-		          (?:
-			      (?P<date_fullyear>[0-9]{4})
+                         (?:
+                              (?P<date_fullyear>[0-9]{4})
                               \-
                               (?P<date_month>[0-9]{2})
                               \-
@@ -88,7 +89,7 @@ def parse(timestamp, utc=False, produce_naive=False):
                 tzinfo = pytz.utc
         else:
             if produce_naive is True:
-                raise ValueError("cannot produce a naive datetime from "+
+                raise ValueError("cannot produce a naive datetime from " +
                                  "a local timestamp")
             else:
                 tzinfo = FixedOffset(int(match.group('time_houroffset')),
@@ -98,16 +99,16 @@ def parse(timestamp, utc=False, produce_naive=False):
         if secfrac is None:
             microsecond = 0
         else:
-            microsecond = int(round(float(secfrac)*1000000))
+            microsecond = int(round(float(secfrac) * 1000000))
 
-        dt_out = datetime(year = int(match.group('date_fullyear')),
-                      month = int(match.group('date_month')), 
-                      day = int(match.group('date_mday')),
-                      hour = int(match.group('time_hour')),
-                      minute = int(match.group('time_minute')),
-                      second = int(match.group('time_second')),
-                      microsecond = microsecond,
-                      tzinfo = tzinfo)
+        dt_out = datetime(year=int(match.group('date_fullyear')),
+                      month=int(match.group('date_month')),
+                      day=int(match.group('date_mday')),
+                      hour=int(match.group('time_hour')),
+                      minute=int(match.group('time_minute')),
+                      second=int(match.group('time_second')),
+                      microsecond=microsecond,
+                      tzinfo=tzinfo)
 
         if utc == True:
             dt_out = dt_out.astimezone(pytz.utc)
