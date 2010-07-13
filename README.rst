@@ -1,7 +1,7 @@
 Description
 ===========
 
-pyRFC3339 produces and generates :RFC:`3339`-compliant timestamps from Python `datetime.datetime` objects.
+pyRFC3339 parses and generates :RFC:`3339`-compliant timestamps using Python `datetime.datetime` objects.
 
 >>> from pyrfc3339 import generate, parse
 >>> from datetime import datetime
