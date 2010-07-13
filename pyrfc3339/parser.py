@@ -110,7 +110,7 @@ def parse(timestamp, utc=False, produce_naive=False):
                       microsecond=microsecond,
                       tzinfo=tzinfo)
 
-        if utc == True:
+        if utc:
             dt_out = dt_out.astimezone(pytz.utc)
 
         return dt_out
