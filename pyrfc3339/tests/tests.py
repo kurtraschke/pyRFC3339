@@ -11,6 +11,7 @@ import pytz
 
 from nose.tools import eq_, raises
 
+
 class TestCore():
     '''
     This test suite contains tests to address cases not tested in the doctests,
@@ -33,11 +34,10 @@ class TestCore():
         timestamp = '2009-01-01T10:02:03+00:00'
         dt = parse(timestamp)
         eq_(dt.tzinfo, pytz.utc)
-        
+
         timestamp = '2009-01-01T10:02:03-00:00'
         dt = parse(timestamp)
         eq_(dt.tzinfo, pytz.utc)
-
 
     def test_parse_microseconds(self):
         '''
@@ -54,7 +54,7 @@ class TestCore():
 
         '''
         dt = datetime(2009, 1, 1, 10, 2, 3, 500000, pytz.utc)
-        timestamp = generate(dt, microseconds = True)
+        timestamp = generate(dt, microseconds=True)
         eq_(timestamp, '2009-01-01T10:02:03.500000Z')
 
     def test_mixed_case(self):
@@ -84,7 +84,6 @@ class TestCore():
         '''
         parse('2009-01-01T10:01:02-04:00', produce_naive=True)
 
-
     def test_generate_utc_parse_utc(self):
         '''
         Generate a UTC timestamp and parse it into a UTC datetime.
@@ -92,8 +91,8 @@ class TestCore():
         '''
         dt1 = datetime.utcnow()
         dt1 = dt1.replace(tzinfo=pytz.utc)
-        
-        dt2 = parse(generate(dt1, microseconds = True))
+
+        dt2 = parse(generate(dt1, microseconds=True))
         eq_(dt1, dt2)
 
     def test_generate_local_parse_local(self):
@@ -103,7 +102,7 @@ class TestCore():
         '''
         eastern = pytz.timezone('US/Eastern')
         dt1 = eastern.localize(datetime.utcnow())
-        dt2 = parse(generate(dt1, utc=False, microseconds = True), utc=False)
+        dt2 = parse(generate(dt1, utc=False, microseconds=True), utc=False)
         eq_(dt1, dt2)
 
     def test_generate_local_parse_utc(self):
@@ -113,8 +112,9 @@ class TestCore():
         '''
         eastern = pytz.timezone('US/Eastern')
         dt1 = eastern.localize(datetime.utcnow())
-        dt2 = parse(generate(dt1, utc=False, microseconds = True))
+        dt2 = parse(generate(dt1, utc=False, microseconds=True))
         eq_(dt1, dt2)
+
 
 class TestExhaustiveRoundtrip():
     '''
@@ -138,7 +138,7 @@ class TestExhaustiveRoundtrip():
         '''
         tzinfo = pytz.timezone(tz_name)
         dt1 = tzinfo.localize(datetime.utcnow())
-        timestamp = generate(dt1, utc=False, microseconds = True)
+        timestamp = generate(dt1, utc=False, microseconds=True)
         dt2 = parse(timestamp, utc=False)
         eq_(dt1, dt2)
 
@@ -155,6 +155,6 @@ class TestExhaustiveRoundtrip():
         '''
         tzinfo = pytz.timezone(tz_name)
         dt1 = tzinfo.localize(datetime.utcnow())
-        timestamp = generate(dt1, utc=False, microseconds = True)
+        timestamp = generate(dt1, utc=False, microseconds=True)
         dt2 = parse(timestamp)
         eq_(dt1, dt2)
