@@ -21,7 +21,6 @@ setup(
     packages = find_packages(),
 
     install_requires = ['pytz'],
-    setup_requires=['nose>=0.11', 'coverage>=3.0.1'],
     test_suite = 'nose.collector',
     tests_require = ['nose']
     )
