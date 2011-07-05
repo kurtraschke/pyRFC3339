@@ -21,24 +21,15 @@ To install the latest version from PyPI:
 
 ``$ easy_install pyRFC3339``
 
+To install the latest development version:
 
-Otherwise, to get the development version, either clone the repository 
-listed below, or download a snapshot from the URL given:
-
-* git://github.com/kurtraschke/pyRFC3339.git
-* http://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev
-
-Then install as follows:
-
-#. ``$ python setup.py build``
-#. ``$ python setup.py nosetests``
-#. ``$ python setup.py install``
+``$ easy_install http://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev``
 
 To build the documentation with Sphinx:
 
 #. ``$ easy_install Sphinx Sphinx-PyPI-upload``
 #. ``$ python setup.py build_sphinx``
 
-The latest development version can also be installed with:
+The documentation is also available online at:
 
-``$ easy_install http://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev``
+``http://packages.python.org/pyRFC3339/``
