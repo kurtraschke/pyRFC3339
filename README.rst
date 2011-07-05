@@ -16,13 +16,14 @@ datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=<UTC-04:00>)
 Installation
 ============
 
-In the future (once a formal release has been made and uploaded to PyPI),
-install pyRFC3339 as follows:
+
+To install the latest version from PyPI:
 
 ``$ easy_install pyRFC3339``
 
-Until then, either clone the repository listed below, or download a snapshot
-from the URL given:
+
+Otherwise, to get the development version, either clone the repository 
+listed below, or download a snapshot from the URL given:
 
 * git://github.com/kurtraschke/pyRFC3339.git
 * http://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev
@@ -35,7 +36,7 @@ Then install as follows:
 
 To build the documentation with Sphinx:
 
-#. ``$ easy_install Sphinx``
+#. ``$ easy_install Sphinx Sphinx-PyPI-upload``
 #. ``$ python setup.py build_sphinx``
 
 The latest development version can also be installed with:
