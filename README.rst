@@ -1,7 +1,7 @@
 Description
 ===========
 
-pyRFC3339 parses and generates :RFC:`3339`-compliant timestamps using Python `datetime.datetime` objects.
+pyRFC3339 parses and generates :RFC:`3339`-compliant timestamps using `Python <https://www.python.org/>`_ `datetime.datetime <https://docs.python.org/2/library/datetime.html#datetime-objects>`_ objects.
 
 >>> from pyrfc3339 import generate, parse
 >>> from datetime import datetime
@@ -16,20 +16,19 @@ datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=<UTC-04:00>)
 Installation
 ============
 
+To install the latest version from `PyPI <https://pypi.python.org/pypi>`_:
 
-To install the latest version from PyPI:
-
-``$ easy_install pyRFC3339``
+``$ pip install pyRFC3339``
 
 To install the latest development version:
 
-``$ easy_install http://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev``
+``$ pip install https://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev``
 
 To build the documentation with Sphinx:
 
-#. ``$ easy_install Sphinx Sphinx-PyPI-upload``
+#. ``$ pip install Sphinx Sphinx-PyPI-upload``
 #. ``$ python setup.py build_sphinx``
 
 The documentation is also available online at:
 
-``http://packages.python.org/pyRFC3339/``
+``https://pythonhosted.org/pyRFC3339/``
