@@ -1,6 +1,9 @@
 Description
 ===========
 
+.. image:: https://travis-ci.org/kurtraschke/pyRFC3339.svg?branch=master
+    :target: https://travis-ci.org/kurtraschke/pyRFC3339
+
 pyRFC3339 parses and generates :RFC:`3339`-compliant timestamps using `Python <https://www.python.org/>`_ `datetime.datetime <https://docs.python.org/2/library/datetime.html#datetime-objects>`_ objects.
 
 >>> from pyrfc3339 import generate, parse
@@ -26,7 +29,7 @@ To install the latest development version:
 
 To build the documentation with Sphinx:
 
-#. ``$ pip install Sphinx Sphinx-PyPI-upload``
+#. ``$ pip install Sphinx``
 #. ``$ python setup.py build_sphinx``
 
 The documentation is also available online at:
