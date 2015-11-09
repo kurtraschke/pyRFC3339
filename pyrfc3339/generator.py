@@ -43,7 +43,7 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
     ValueError: cannot generate a local timestamp from a naive datetime
 
     '''
-    if dt.tzinfo == None:
+    if dt.tzinfo is None:
         if accept_naive is True:
             if utc is True:
                 dt = dt.replace(tzinfo=pytz.utc)

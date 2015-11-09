@@ -46,7 +46,7 @@ def parse(timestamp, utc=False, produce_naive=False):
     '''
 
     parse_re = re.compile(r'''^(?:(?:(?P<date_fullyear>[0-9]{4})\-(?P<date_month>[0-9]{2})\-(?P<date_mday>[0-9]{2}))T(?:(?:(?P<time_hour>[0-9]{2})\:(?P<time_minute>[0-9]{2})\:(?P<time_second>[0-9]{2})(?P<time_secfrac>(?:\.[0-9]{1,}))?)(?P<time_offset>(?:Z|(?P<time_numoffset>(?P<time_houroffset>(?:\+|\-)[0-9]{2})\:(?P<time_minuteoffset>[0-9]{2}))))))$''',
-                   re.I | re.X)
+                          re.I | re.X)
 
     match = parse_re.match(timestamp)
 
@@ -71,13 +71,13 @@ def parse(timestamp, utc=False, produce_naive=False):
             microsecond = int(round(float(secfrac) * 1000000))
 
         dt_out = datetime(year=int(match.group('date_fullyear')),
-                      month=int(match.group('date_month')),
-                      day=int(match.group('date_mday')),
-                      hour=int(match.group('time_hour')),
-                      minute=int(match.group('time_minute')),
-                      second=int(match.group('time_second')),
-                      microsecond=microsecond,
-                      tzinfo=tzinfo)
+                          month=int(match.group('date_month')),
+                          day=int(match.group('date_mday')),
+                          hour=int(match.group('time_hour')),
+                          minute=int(match.group('time_minute')),
+                          second=int(match.group('time_second')),
+                          microsecond=microsecond,
+                          tzinfo=tzinfo)
 
         if utc:
             dt_out = dt_out.astimezone(pytz.utc)
