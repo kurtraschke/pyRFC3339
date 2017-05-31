@@ -4,6 +4,7 @@ Test suite for pyRFC3339.
 '''
 
 from datetime import datetime
+from copy import deepcopy
 
 from pyrfc3339 import generate, parse
 from pyrfc3339.utils import timezone
@@ -38,6 +39,15 @@ class TestCore():
         timestamp = '2009-01-01T10:02:03-00:00'
         dt = parse(timestamp)
         eq_(dt.tzinfo, pytz.utc)
+
+    def test_deepcopy(self):
+        '''
+        Tests that deepcopy works and doesn't crash
+
+        '''
+        timestamp = '2009-01-01T10:02:03+02:00'
+        dt = parse(timestamp)
+        deepcopy(dt)
 
     def test_parse_microseconds(self):
         '''
