@@ -3,15 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyRFC3339's documentation!
-=====================================
-
-Contents:
+pyRFC3339
+=========
 
 .. toctree::
    :maxdepth: 3
 
    intro
+   changes
    doc
 
 
