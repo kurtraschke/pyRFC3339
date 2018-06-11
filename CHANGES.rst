@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.1 (2018-05-26)
+1.1 (2018-06-10)
 ----------------
 
-- Drop support for EOL Python releases, add (explicit) support for Python 3.5 and 3.6 (:issue:`7,10,11`)
+- Drop support for EOL Python releases, add (explicit) support for Python 3.5 and 3.6 (:issue:`7,10,11,12`)
 - Add :meth:`.utils.FixedOffset.__deepcopy__()` method, to prevent crash on deepcopy (:issue:`8`)
 
 1.0 (2015-11-09)
