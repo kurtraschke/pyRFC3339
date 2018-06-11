@@ -84,7 +84,6 @@ class FixedOffset(tzinfo):
         return result
 
 
-
 def timedelta_seconds(td):
     '''
     Return the offset stored by a :class:`datetime.timedelta` object as an

@@ -14,7 +14,6 @@ Changelog
 - Fix :func:`.utils.timedelta_seconds()` to use :meth:`datetime.timedelta.total_seconds()` when the native method is available (:issue:`6`)
 - Documentation and packaging cleanup (:issue:`4,5`)
 
-
 0.2 (2014-02-09)
 ----------------
 
