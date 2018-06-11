@@ -10,7 +10,7 @@ setup(
     author_email = "kurt@kurtraschke.com",
     url = "https://github.com/kurtraschke/pyRFC3339",
     description = "Generate and parse RFC 3339 timestamps",
-    long_description = open("README.rst").read(),
+    long_description = long_description,
     keywords = "rfc 3339 timestamp",
     license = "MIT",
     classifiers = [
