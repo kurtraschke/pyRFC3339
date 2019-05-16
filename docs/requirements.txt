@@ -1,2 +1,3 @@
 Sphinx==1.8.5
 sphinx-issues==1.2.0
+sphinx-rtd-theme==0.4.3
