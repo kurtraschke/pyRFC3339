@@ -4,6 +4,10 @@ Description
 .. image:: https://travis-ci.org/kurtraschke/pyRFC3339.svg?branch=master
     :target: https://travis-ci.org/kurtraschke/pyRFC3339
 
+.. image:: https://readthedocs.org/projects/pyrfc3339/badge/?version=latest
+    :target: https://pyrfc3339.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 pyRFC3339 parses and generates :RFC:`3339`-compliant timestamps using `Python <https://www.python.org/>`_ `datetime.datetime <https://docs.python.org/2/library/datetime.html#datetime-objects>`_ objects.
 
 >>> from pyrfc3339 import generate, parse
@@ -29,9 +33,9 @@ To install the latest development version:
 
 To build the documentation with Sphinx:
 
-#. ``$ pip install Sphinx``
+#. ``$ pip install -f docs/requirements.txt``
 #. ``$ python setup.py build_sphinx``
 
 The documentation is also available online at:
 
-``https://pythonhosted.org/pyRFC3339/``
+``https://pyrfc3339.readthedocs.io/``
