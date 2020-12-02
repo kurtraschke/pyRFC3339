@@ -1,6 +1,4 @@
-import pytz
-
-from pyrfc3339.utils import timezone, timedelta_seconds
+from pyrfc3339.utils import timezone, timedelta_seconds, utc as _utc
 
 
 def generate(dt, utc=True, accept_naive=False, microseconds=False):
@@ -8,8 +6,8 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
     Generate an :RFC:`3339`-formatted timestamp from a
     :class:`datetime.datetime`.
 
-    >>> from datetime import datetime
-    >>> generate(datetime(2009,1,1,12,59,59,0,pytz.utc))
+    >>> from datetime import datetime, timezone
+    >>> generate(datetime(2009,1,1,12,59,59,0,timezone.utc))
     '2009-01-01T12:59:59Z'
 
     The timestamp will use UTC unless `utc=False` is specified, in which case
@@ -46,7 +44,7 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
     if dt.tzinfo is None:
         if accept_naive is True:
             if utc is True:
-                dt = dt.replace(tzinfo=pytz.utc)
+                dt = dt.replace(tzinfo=_utc)
             else:
                 raise ValueError("cannot generate a local timestamp from " +
                                  "a naive datetime")
@@ -54,12 +52,12 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
             raise ValueError("naive datetime and accept_naive is False")
 
     if utc is True:
-        dt = dt.astimezone(pytz.utc)
+        dt = dt.astimezone(_utc)
 
     timestamp = dt.strftime('%Y-%m-%dT%H:%M:%S')
     if microseconds is True:
         timestamp += dt.strftime('.%f')
-    if dt.tzinfo is pytz.utc:
+    if dt.tzinfo is _utc:
         timestamp += 'Z'
     else:
         timestamp += timezone(timedelta_seconds(dt.tzinfo.utcoffset(dt)))

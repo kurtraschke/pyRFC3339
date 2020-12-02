@@ -1,9 +1,7 @@
 import re
 from datetime import datetime
 
-import pytz
-
-from pyrfc3339.utils import FixedOffset
+from pyrfc3339.utils import FixedOffset, utc as _utc
 
 
 def parse(timestamp, utc=False, produce_naive=False):
@@ -12,7 +10,7 @@ def parse(timestamp, utc=False, produce_naive=False):
     `datetime.datetime`.
 
     If the timestamp is presented in UTC, then the `tzinfo` parameter of the
-    returned `datetime` will be set to `pytz.utc`.
+    returned `datetime` will be set to `datetime.timezone.utc`.
 
     >>> parse('2009-01-01T10:01:02Z')
     datetime.datetime(2009, 1, 1, 10, 1, 2, tzinfo=<UTC>)
@@ -25,7 +23,7 @@ def parse(timestamp, utc=False, produce_naive=False):
 
     However, if `parse()`  is called with `utc=True`, then the returned
     `datetime` will be normalized to UTC (and its tzinfo parameter set to
-    `pytz.utc`), regardless of the input timezone.
+    `datetime.timezone.utc`), regardless of the input timezone.
 
     >>> parse('2009-01-01T06:01:02-04:00', utc=True)
     datetime.datetime(2009, 1, 1, 10, 1, 2, tzinfo=<UTC>)
@@ -55,7 +53,7 @@ def parse(timestamp, utc=False, produce_naive=False):
             if produce_naive is True:
                 tzinfo = None
             else:
-                tzinfo = pytz.utc
+                tzinfo = _utc
         else:
             if produce_naive is True:
                 raise ValueError("cannot produce a naive datetime from " +
@@ -80,7 +78,7 @@ def parse(timestamp, utc=False, produce_naive=False):
                           tzinfo=tzinfo)
 
         if utc:
-            dt_out = dt_out.astimezone(pytz.utc)
+            dt_out = dt_out.astimezone(_utc)
 
         return dt_out
     else:
