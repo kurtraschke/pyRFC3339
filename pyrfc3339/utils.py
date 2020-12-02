@@ -3,6 +3,13 @@ from __future__ import division
 from datetime import timedelta, tzinfo
 from copy import deepcopy
 
+try:
+    from datetime import timezone as _timezone
+    utc = _timezone.utc
+except ImportError:
+    import pytz
+    utc = pytz.utc
+
 
 class FixedOffset(tzinfo):
     '''

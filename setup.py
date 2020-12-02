@@ -1,7 +1,16 @@
-from setuptools import setup
+from distutils.version import LooseVersion
+from setuptools import setup, __version__ as setuptools_version
 
 with open("README.rst", "r") as readme:
     long_description = readme.read()
+
+
+setuptools_known_environment_markers = (LooseVersion(setuptools_version) >= LooseVersion('36.2'))
+if setuptools_known_environment_markers:
+    install_requires = ['pytz ; python_version < "3.2"']
+else:
+    install_requires = ['pytz']
+
 
 setup(
     name = "pyRFC3339",
@@ -29,7 +38,7 @@ setup(
 
     packages = ['pyrfc3339'],
 
-    install_requires = ['pytz'],
+    install_requires = install_requires,
     test_suite = 'nose.collector',
-    tests_require = ['nose', 'coverage']
+    tests_require = ['nose', 'coverage', 'pytz']
 )
