@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.0 (2024-11-00)
+----------------
+
+- Migrate tests from `nose` to `unittest` and `pytest` (:issue:`16`)
+- Replace :mod:`pytz` dependency with :attr:`datetime.timezone.utc` and :mod:`zoneinfo` (:issue:`15`)
+- Reformat codebase with `black` and `isort`
+- Configure GitHub Actions; remove Travis CI configuration file
+
 1.1 (2018-06-10)
 ----------------
 
