@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyRFC3339'
-copyright = u'2019, Kurt Raschke'
+copyright = u'2024, Kurt Raschke'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -195,8 +195,6 @@ latex_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None,
-                       #'http://pytz.sourceforge.net/':None
-                       }
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 issues_github_path = 'kurtraschke/pyrfc3339'
