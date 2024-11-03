@@ -43,43 +43,48 @@ def parse(timestamp, utc=False, produce_naive=False):
 
     """
 
-    parse_re = re.compile(r'''^(?:(?:(?P<date_fullyear>[0-9]{4})\-(?P<date_month>[0-9]{2})\-(?P<date_mday>[0-9]{2}))T(?:(?:(?P<time_hour>[0-9]{2})\:(?P<time_minute>[0-9]{2})\:(?P<time_second>[0-9]{2})(?P<time_secfrac>(?:\.[0-9]{1,}))?)(?P<time_offset>(?:Z|(?P<time_numoffset>(?P<time_houroffset>(?:\+|\-)[0-9]{2})\:(?P<time_minuteoffset>[0-9]{2}))))))$''',
-                          re.I | re.X)
+    parse_re = re.compile(
+        r"""^(?:(?:(?P<date_fullyear>[0-9]{4})\-(?P<date_month>[0-9]{2})\-(?P<date_mday>[0-9]{2}))T(?:(?:(?P<time_hour>[0-9]{2})\:(?P<time_minute>[0-9]{2})\:(?P<time_second>[0-9]{2})(?P<time_secfrac>(?:\.[0-9]{1,}))?)(?P<time_offset>(?:Z|(?P<time_numoffset>(?P<time_houroffset>(?:\+|\-)[0-9]{2})\:(?P<time_minuteoffset>[0-9]{2}))))))$""",
+        re.I | re.X,
+    )
 
     match = parse_re.match(timestamp)
 
     if match is not None:
-        if match.group('time_offset') in ["Z", "z", "+00:00", "-00:00"]:
+        if match.group("time_offset") in ["Z", "z", "+00:00", "-00:00"]:
             if produce_naive is True:
                 tzinfo = None
             else:
                 tzinfo = timezone.utc
         else:
             if produce_naive is True:
-                raise ValueError("cannot produce a naive datetime from " +
-                                 "a local timestamp")
+                raise ValueError(
+                    "cannot produce a naive datetime from a local timestamp"
+                )
             else:
-                tz_hours = int(match.group('time_houroffset'))
-                tz_minutes = int(match.group('time_minuteoffset'))
+                tz_hours = int(match.group("time_houroffset"))
+                tz_minutes = int(match.group("time_minuteoffset"))
                 if tz_hours < 0:
                     tz_minutes *= -1
                 td = timedelta(hours=tz_hours, minutes=tz_minutes)
                 tzinfo = timezone(td, f"<UTC{format_timezone(td.total_seconds())}>")
 
-        secfrac = match.group('time_secfrac')
+        secfrac = match.group("time_secfrac")
         if secfrac is None:
             microsecond = 0
         else:
             microsecond = int(round(float(secfrac) * 1000000))
 
-        dt_out = datetime(year=int(match.group('date_fullyear')),
-                          month=int(match.group('date_month')),
-                          day=int(match.group('date_mday')),
-                          hour=int(match.group('time_hour')),
-                          minute=int(match.group('time_minute')),
-                          second=int(match.group('time_second')),
-                          microsecond=microsecond,
-                          tzinfo=tzinfo)
+        dt_out = datetime(
+            year=int(match.group("date_fullyear")),
+            month=int(match.group("date_month")),
+            day=int(match.group("date_mday")),
+            hour=int(match.group("time_hour")),
+            minute=int(match.group("time_minute")),
+            second=int(match.group("time_second")),
+            microsecond=microsecond,
+            tzinfo=tzinfo,
+        )
 
         if utc:
             dt_out = dt_out.astimezone(timezone.utc)

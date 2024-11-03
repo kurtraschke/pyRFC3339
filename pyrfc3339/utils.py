@@ -16,7 +16,7 @@ def format_timezone(utcoffset):
     minutes = round(float(seconds) / 60)
 
     if utcoffset >= 0:
-        sign = '+'
+        sign = "+"
     else:
-        sign = '-'
-    return '{0}{1:02d}:{2:02d}'.format(sign, int(hours), int(minutes))
+        sign = "-"
+    return "{0}{1:02d}:{2:02d}".format(sign, int(hours), int(minutes))

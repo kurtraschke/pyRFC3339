@@ -16,4 +16,4 @@ datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=datetime.timezone(datetime.timede
 from pyrfc3339.generator import generate
 from pyrfc3339.parser import parse
 
-__all__ = ['generate', 'parse']
+__all__ = ["generate", "parse"]
