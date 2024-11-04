@@ -5,7 +5,7 @@ with open("README.rst", "r") as readme:
 
 setup(
     name = "pyRFC3339",
-    version = "1.1",
+    version = "2.0",
     author = "Kurt Raschke",
     author_email = "kurt@kurtraschke.com",
     url = "https://github.com/kurtraschke/pyRFC3339",

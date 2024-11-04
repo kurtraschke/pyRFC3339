@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0 (2024-11-00)
+2.0 (2024-11-03)
 ----------------
 
 - Migrate tests from `nose` to `unittest` and `pytest` (:issue:`16`)
