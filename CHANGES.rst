@@ -1,8 +1,15 @@
 Changelog
 =========
 
+2.0.1 (2024-11-03)
+------------------
+
+- Fix GitHub Actions badge in README.rst.
+
 2.0 (2024-11-03)
 ----------------
+
+(not released to PyPI)
 
 - Migrate tests from `nose` to `unittest` and `pytest` (:issue:`16`)
 - Replace :mod:`pytz` dependency with :attr:`datetime.timezone.utc` and :mod:`zoneinfo` (:issue:`15`)
