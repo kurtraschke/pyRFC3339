@@ -1,3 +1,61 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+strict = true
+
+[tool.flake8]
+max-line-length = 132
+
+[tool.isort]
+profile = "black"
+
+[tool.coverage.run]
+omit = ["pyrfc3339/tests/*"]
+
+[tool.tox]
+requires = ["tox>=4"]
+env_list = ["sort", "format", "style", "type", "3.9", "3.10", "3.11", "3.12", "3.13"]
+skip_missing_interpreters = true
+
+[tool.tox.gh.python]
+"3.13" = ["sort", "style", "format", "type", "3.13"]
+"3.12" = ["3.12"]
+"3.11" = ["3.11"]
+"3.10" = ["3.10"]
+"3.9" = ["3.9"]
+
+[tool.tox.env_run_base]
+deps = ["pytest", "pytest-subtests", "pytest-cov", "tzdata;platform_system==\"Windows\""]
+commands = [["pytest",
+    "--doctest-glob=\"docs/source/*.rst\"",
+    "--doctest-glob=\"README.rst\"",
+    "--doctest-modules",
+    "--doctest-continue-on-failure",
+    "--cov=pyrfc3339",
+    "."]]
+
+[tool.tox.env.type]
+skip_install = true
+deps = ["mypy"]
+commands = [["mypy", "pyrfc3339"]]
+
+[tool.tox.env.sort]
+skip_install = true
+deps = ["isort"]
+commands = [["isort", "--check", "--diff", "pyrfc3339"]]
+
+[tool.tox.env.format]
+skip_install = true
+deps = ["black"]
+commands = [["black", "--check", "--diff", "pyrfc3339"]]
+
+[tool.tox.env.style]
+skip_install = true
+deps = ["flake8", "flake8-pyproject"]
+commands = [["flake8", "pyrfc3339"]]
+
+[tool.tox.env.docs]
+deps = ["-r docs/requirements.txt"]
+commands = [["sphinx-build", "-M", "html", "docs/source", "docs/build"]]
