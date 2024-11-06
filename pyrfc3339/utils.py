@@ -1,22 +1,33 @@
-def format_timezone(utcoffset):
+from datetime import datetime
+
+
+def datetime_utcoffset(dt: datetime) -> float:
     """
-    Return a string representing the timezone offset.
-    Remaining seconds are rounded to the nearest minute.
+    Return the UTC offset for an aware :class:`datetime.datetime` in seconds.
 
-    >>> format_timezone(3600)
-    '+01:00'
-    >>> format_timezone(5400)
-    '+01:30'
-    >>> format_timezone(-28800)
-    '-08:00'
+    >>> from datetime import datetime
+    >>> from zoneinfo import ZoneInfo
+    >>> z = ZoneInfo('US/Eastern')
+    >>> dt = datetime(2024, 11, 5, 19, 7, 6, tzinfo=z)
+    >>> datetime_utcoffset(dt)
+    -18000.0
 
+    >>> dt = datetime(2024, 11, 5, 19, 7, 6)
+    >>> datetime_utcoffset(dt)
+    Traceback (most recent call last):
+    ...
+    AssertionError
+
+    :param datetime.datetime dt: a :class:`~datetime.datetime` instance; must be aware (that is, have a timezone attached)
+    :return: the UTC offset of the supplied :class:`~datetime.datetime` in seconds
+    :rtype: float
     """
 
-    hours, seconds = divmod(abs(utcoffset), 3600)
-    minutes = round(float(seconds) / 60)
+    assert dt.tzinfo is not None
 
-    if utcoffset >= 0:
-        sign = "+"
-    else:
-        sign = "-"
-    return "{0}{1:02d}:{2:02d}".format(sign, int(hours), int(minutes))
+    tz = dt.tzinfo
+    offset = tz.utcoffset(dt)
+
+    assert offset is not None
+
+    return offset.total_seconds()

@@ -1,21 +1,23 @@
-import datetime
+import re
+from datetime import datetime, timezone
 
-from pyrfc3339.utils import format_timezone
 
-
-def generate(dt, utc=True, accept_naive=False, microseconds=False):
+def generate(
+    dt: datetime,
+    utc: bool = True,
+    accept_naive: bool = False,
+    microseconds: bool = False,
+) -> str:
     """
-    Generate an :RFC:`3339`-formatted timestamp from a
-    :class:`datetime.datetime`.
+    Generate an :RFC:`3339`-formatted timestamp from a :class:`datetime.datetime`.
 
     >>> from datetime import datetime, timezone
     >>> from zoneinfo import ZoneInfo
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, timezone.utc))
     '2009-01-01T12:59:59Z'
 
-    The timestamp will use UTC unless `utc=False` is specified, in which case
-    it will use the timezone from the :class:`datetime.datetime`'s
-    :attr:`tzinfo` parameter.
+    The timestamp will use UTC unless ``utc=False`` is specified, in which case
+    it will use the timezone from the :class:`~datetime.datetime`'s :attr:`tzinfo` parameter.
 
     >>> eastern = ZoneInfo('US/Eastern')
     >>> dt = datetime(2009, 1, 1, 12, 59, 59, tzinfo=eastern)
@@ -24,7 +26,7 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
     >>> generate(dt, utc=False)
     '2009-01-01T12:59:59-05:00'
 
-    Unless `accept_naive=True` is specified, the `datetime` must not be naive.
+    Unless ``accept_naive=True`` is specified, the :class:`~datetime.datetime` must not be naive.
 
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0))
     Traceback (most recent call last):
@@ -34,21 +36,33 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0), accept_naive=True)
     '2009-01-01T12:59:59Z'
 
-    If `accept_naive=True` is specified, the `datetime` is assumed to be UTC.
-    Attempting to generate a local timestamp from a naive datetime will result
-    in an error.
+    If ``accept_naive=True`` is specified, the :class:`~datetime.datetime` is assumed to represent a UTC time.
+    Attempting to generate a local timestamp from a naive datetime will result in an error.
 
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0), accept_naive=True, utc=False)
     Traceback (most recent call last):
     ...
     ValueError: cannot generate a local timestamp from a naive datetime
 
+    :param datetime.datetime dt: the :class:`~datetime.datetime` for which to generate an :RFC:`3339` timestamp.
+    :param bool utc: :const:`True` to normalize the supplied :class:`datetime.datetime` to UTC; :const:`False` otherwise.
+                     Defaults to :const:`True`.
+    :param bool accept_naive: :const:`True` if :func:`generate()` should accept a 'naive' datetime
+                              (that is, one without timezone information) and treat it as a UTC timestamp;
+                              :const:`False` otherwise. Defaults to :const:`False`.
+    :param bool microseconds: :const:`True` to generate a timestamp which includes fractional seconds, if present;
+                              :const:`False` otherwise. Defaults to :const:`False`.
+                              Note that fractional seconds are *truncated*,
+                              not rounded when :obj:`microseconds` is :const:`False`.
+    :return: the supplied :class:`~datetime.datetime` instance represented as an :RFC:`3339` timestamp
+    :rtype: str
+
     """
 
     if dt.tzinfo is None:
         if accept_naive is True:
             if utc is True:
-                dt = dt.replace(tzinfo=datetime.timezone.utc)
+                dt = dt.replace(tzinfo=timezone.utc)
             else:
                 raise ValueError(
                     "cannot generate a local timestamp from a naive datetime"
@@ -57,14 +71,10 @@ def generate(dt, utc=True, accept_naive=False, microseconds=False):
             raise ValueError("naive datetime and accept_naive is False")
 
     if utc is True:
-        dt = dt.astimezone(datetime.timezone.utc)
+        dt = dt.astimezone(timezone.utc)
 
-    timestamp = dt.strftime("%Y-%m-%dT%H:%M:%S")
-    if microseconds is True:
-        timestamp += dt.strftime(".%f")
-    if dt.tzinfo is datetime.timezone.utc:
-        timestamp += "Z"
-    else:
-        timestamp += format_timezone(dt.tzinfo.utcoffset(dt).total_seconds())
+    timestamp = dt.isoformat(timespec="microseconds" if microseconds else "seconds")
+
+    timestamp = re.sub(r"\+00:00$", "Z", timestamp)
 
     return timestamp
