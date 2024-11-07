@@ -21,6 +21,7 @@ def datetime_utcoffset(dt: datetime) -> float:
     :param datetime.datetime dt: a :class:`~datetime.datetime` instance; must be aware (that is, have a timezone attached)
     :return: the UTC offset of the supplied :class:`~datetime.datetime` in seconds
     :rtype: float
+
     """
 
     assert dt.tzinfo is not None

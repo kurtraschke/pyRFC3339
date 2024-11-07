@@ -47,6 +47,7 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
                                Defaults to `False`.
     :return: the parsed timestamp
     :rtype: datetime.datetime
+
     """
 
     # Python does not recognize "Z" as an alias for "+00:00", so we perform the

@@ -1,6 +1,44 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyRFC3339"
+dynamic = ["version"]
+requires-python = ">= 3.9"
+authors = [
+    {name = "Kurt Raschke", email = "kurt@kurtraschke.com"}
+    ]
+description = "Generate and parse RFC 3339 timestamps"
+readme = {file = "README.rst", content-type = "text/x-rst"}
+keywords = ["rfc-3339", "timestamp", "iso-8601", "datetime"]
+license = {file = "LICENSE.txt"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet"
+]
+
+[project.urls]
+Homepage = "https://github.com/kurtraschke/pyrfc3339"
+Documentation = "https://pyrfc3339.readthedocs.io/"
+Repository = "https://github.com/kurtraschke/pyRFC3339.git"
+"Bug Tracker" = "https://github.com/kurtraschke/pyRFC3339/issues"
+Changelog = "https://github.com/kurtraschke/pyRFC3339/blob/master/CHANGES.rst"
+
+[tool.setuptools]
+packages = ["pyrfc3339"]
+
+[tool.setuptools_scm]
 
 [tool.mypy]
 strict = true
@@ -20,7 +58,7 @@ env_list = ["sort", "format", "style", "type", "3.9", "3.10", "3.11", "3.12", "3
 skip_missing_interpreters = true
 
 [tool.tox.gh.python]
-"3.13" = ["sort", "style", "format", "type", "3.13"]
+"3.13" = ["sort", "format", "style", "type", "3.13"]
 "3.12" = ["3.12"]
 "3.11" = ["3.11"]
 "3.10" = ["3.10"]
@@ -29,8 +67,8 @@ skip_missing_interpreters = true
 [tool.tox.env_run_base]
 deps = ["pytest", "pytest-subtests", "pytest-cov", "tzdata;platform_system==\"Windows\""]
 commands = [["pytest",
-    "--doctest-glob=\"docs/source/*.rst\"",
-    "--doctest-glob=\"README.rst\"",
+    "--doctest-glob=docs/source/*.rst",
+    "--doctest-glob=README.rst",
     "--doctest-modules",
     "--doctest-continue-on-failure",
     "--cov=pyrfc3339",

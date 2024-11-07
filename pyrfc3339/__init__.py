@@ -13,7 +13,14 @@ datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=datetime.timezone(datetime.timede
 
 """
 
+from importlib.metadata import PackageNotFoundError, version
+
 from .generator import generate
 from .parser import parse
+
+try:
+    __version__ = version("pyrfc3339")
+except PackageNotFoundError:
+    pass
 
 __all__ = ["generate", "parse"]
