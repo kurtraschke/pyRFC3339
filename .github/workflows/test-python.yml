@@ -1,9 +1,7 @@
-name: tests
+name: Tests
 on:
   workflow_dispatch:
   push:
-    branches: ["master"]
-    tags-ignore: ["**"]
   pull_request:
 
 concurrency:

@@ -1,11 +1,16 @@
 name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 
-on: push
+on:
+  workflow_run:
+    workflows: ['Tests']
+    types: [completed]
 
 jobs:
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')}}
 
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +39,7 @@ jobs:
   publish-to-pypi:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    if: startsWith(github.ref, 'refs/tags/v')  # only publish to PyPI on tag pushes, of tags whose names start with 'v'
     needs:
       - build
     runs-on: ubuntu-latest
