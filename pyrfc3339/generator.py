@@ -16,7 +16,7 @@ def generate(
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, timezone.utc))
     '2009-01-01T12:59:59Z'
 
-    The timestamp will use UTC unless ``utc=False`` is specified, in which case
+    The timestamp be normalized to UTC unless ``utc=False`` is specified, in which case
     it will use the timezone from the :class:`~datetime.datetime`'s :attr:`tzinfo` parameter.
 
     >>> eastern = ZoneInfo('US/Eastern')
@@ -36,7 +36,7 @@ def generate(
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0), accept_naive=True)
     '2009-01-01T12:59:59Z'
 
-    If ``accept_naive=True`` is specified, the :class:`~datetime.datetime` is assumed to represent a UTC time.
+    If, however, ``accept_naive=True`` is specified, the :class:`~datetime.datetime` is assumed to represent a UTC time.
     Attempting to generate a local timestamp from a naive datetime will result in an error.
 
     >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0), accept_naive=True, utc=False)
@@ -75,6 +75,7 @@ def generate(
 
     timestamp = dt.isoformat(timespec="microseconds" if microseconds else "seconds")
 
-    timestamp = re.sub(r"\+00:00$", "Z", timestamp)
+    if dt.tzinfo == timezone.utc:
+        timestamp = re.sub(r"\+00:00$", "Z", timestamp)
 
     return timestamp

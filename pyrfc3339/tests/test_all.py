@@ -60,6 +60,22 @@ class TestCore(unittest.TestCase):
 
         self.assertEqual(dt1, dt2)
 
+    def test_z(self) -> None:
+        """
+        Timestamps which are explicitly in UTC should end in 'Z', while
+        those in other zones which happen to have an offset of '+00:00'
+        should retain that offset.
+
+        """
+
+        dt1 = datetime(2024, 11, 8, 19, 17, 11, tzinfo=ZoneInfo("US/Eastern"))
+        ts1 = generate(dt1, utc=True)
+        self.assertRegex(ts1, r"Z$")
+
+        dt2 = datetime(1863, 1, 10, 6, 0, tzinfo=ZoneInfo("Europe/London"))
+        ts2 = generate(dt2, utc=False)
+        self.assertRegex(ts2, r"\+00:00$")
+
     def test_parse_naive_utc(self) -> None:
         """
         Test parsing a UTC timestamp to a naive datetime.
@@ -115,7 +131,7 @@ class TestCore(unittest.TestCase):
 class TestExhaustiveRoundtrip(unittest.TestCase):
     """
     This test case exhaustively tests parsing and generation by generating
-    a local RFC 3339 timestamp for every timezone supported by `zoneinfo`,
+    a local RFC 3339 timestamp for every timezone supported by :mod:`zoneinfo`,
     parsing that timestamp into a local datetime and a UTC datetime
     and asserting that those represent the same instant.
 
