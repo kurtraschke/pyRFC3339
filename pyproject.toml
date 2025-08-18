@@ -12,11 +12,11 @@ authors = [
 description = "Generate and parse RFC 3339 timestamps"
 readme = { file = "README.rst", content-type = "text/x-rst" }
 keywords = ["rfc-3339", "timestamp", "iso-8601", "datetime"]
-license = { file = "LICENSE.txt" }
+license = "MIT"
+license-files = ["LICENSE.txt"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",

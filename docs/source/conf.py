@@ -40,7 +40,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyRFC3339'
-copyright = u'2024, Kurt Raschke'
+copyright = u'2025 Contributors to the pyRFC3339 project'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
