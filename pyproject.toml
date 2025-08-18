@@ -7,12 +7,12 @@ name = "pyRFC3339"
 dynamic = ["version"]
 requires-python = ">= 3.9"
 authors = [
-    {name = "Kurt Raschke", email = "kurt@kurtraschke.com"}
-    ]
+    { name = "Kurt Raschke", email = "kurt@kurtraschke.com" }
+]
 description = "Generate and parse RFC 3339 timestamps"
-readme = {file = "README.rst", content-type = "text/x-rst"}
+readme = { file = "README.rst", content-type = "text/x-rst" }
 keywords = ["rfc-3339", "timestamp", "iso-8601", "datetime"]
-license = {file = "LICENSE.txt"}
+license = { file = "LICENSE.txt" }
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
