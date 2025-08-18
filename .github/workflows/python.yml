@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   test:
-    name: test with ${{ matrix.env }} on ${{ matrix.os }}
+    name: Test with ${{ matrix.env }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -62,6 +62,56 @@ jobs:
         run: tox run --skip-pkg-install
         env:
           TOX_GH_MAJOR_MINOR: ${{ matrix.env }}
+
+  build-docs:
+    name: Build docs
+    needs:
+      - test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@d9e0f98d3fc6adb07d1e3d37f3043649ddad06a1
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install tox
+        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv
+
+      - name: Run test suite
+        run: tox run -e docs
+
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: docs/build/html/
+
+  deploy-docs:
+    name: Deploy docs to GitHub Pages
+    needs: build-docs
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+
 
   build:
     name: Build distribution 📦
