@@ -1,8 +1,8 @@
 Description
 ===========
 
-.. image:: https://github.com/kurtraschke/pyRFC3339/actions/workflows/test-python.yml/badge.svg
-    :target: https://github.com/kurtraschke/pyRFC3339/actions/workflows/test-python.yml
+.. image:: https://github.com/kurtraschke/pyRFC3339/actions/workflows/python.yml/badge.svg
+    :target: https://github.com/kurtraschke/pyRFC3339/actions/workflows/python.yml
     :alt: Build Status
 
 .. image:: https://readthedocs.org/projects/pyrfc3339/badge/?version=latest

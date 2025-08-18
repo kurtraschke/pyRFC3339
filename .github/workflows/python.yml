@@ -1,37 +1,99 @@
-name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
+name: Test, build, and publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 
 on:
-  workflow_run:
-    workflows: ['Tests']
-    types: [completed]
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build distribution 📦
-    runs-on: ubuntu-latest
-
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')}}
-
+  test:
+    name: test with ${{ matrix.env }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@d9e0f98d3fc6adb07d1e3d37f3043649ddad06a1
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add .local/bin to Windows PATH
+        if: runner.os == 'Windows'
+        shell: bash
+        run: echo "$USERPROFILE/.local/bin" >> $GITHUB_PATH
+
+      - name: Install tox
+        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv --with tox-gh
+
+      - name: Install Python
+        if: matrix.env != '3.13'
+        run: uv python install --python-preference only-managed ${{ matrix.env }}
+
+      - name: Setup test suite
+        run: tox run -vv --notest --skip-missing-interpreters false
+        env:
+          TOX_GH_MAJOR_MINOR: ${{ matrix.env }}
+
+      - name: Run test suite
+        run: tox run --skip-pkg-install
+        env:
+          TOX_GH_MAJOR_MINOR: ${{ matrix.env }}
+
+  build:
+    name: Build distribution 📦
+    needs:
+      - test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: "3.x"
+
       - name: Install pypa/build
         run: >-
           python3 -m
           pip install
           build
           --user
+
       - name: Build a binary wheel and a source tarball
         env:
           SETUPTOOLS_SCM_OVERRIDES_FOR_PYRFC3339: ${{ startsWith(github.ref, 'refs/tags/') && '{}' || '{local_scheme = "no-local-version"}' }}
         run: python3 -m build
+
       - name: Store the distribution packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: python-package-distributions
           path: dist/
@@ -51,12 +113,13 @@ jobs:
 
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: python-package-distributions
           path: dist/
+
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
 
   github-release:
     name: >-
@@ -72,24 +135,27 @@ jobs:
 
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: python-package-distributions
           path: dist/
+
       - name: Sign the dists with Sigstore
-        uses: sigstore/gh-action-sigstore-python@v3.0.1
+        uses: sigstore/gh-action-sigstore-python@f7ad0af51a5648d09a20d00370f0a91c3bdf8f84
         with:
           inputs: >-
             ./dist/*.tar.gz
             ./dist/*.whl
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
           gh release create
-          '${{ github.ref_name }}'
+          '${GITHUB_REF_NAME}'
           --repo '${{ github.repository }}'
           --notes ""
+
       - name: Upload artifact signatures to GitHub Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -98,11 +164,12 @@ jobs:
         # sigstore-produced signatures and certificates.
         run: >-
           gh release upload
-          '${{ github.ref_name }}' dist/**
+          '${GITHUB_REF_NAME}' dist/**
           --repo '${{ github.repository }}'
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')  # only publish to Test PyPI on pushes to main, or tag pushes, of tags whose names start with 'v'
     needs:
       - build
     runs-on: ubuntu-latest
@@ -116,11 +183,12 @@ jobs:
 
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: python-package-distributions
           path: dist/
+
       - name: Publish distribution 📦 to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
         with:
           repository-url: https://test.pypi.org/legacy/
