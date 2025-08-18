@@ -6,6 +6,12 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "/.github/workflows" # Location of package manifests
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip" # See documentation for possible values
+    directories:
+      - "/docs"
+      - "/"
     schedule:
       interval: "weekly"
