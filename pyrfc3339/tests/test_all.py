@@ -40,6 +40,23 @@ class TestCore(unittest.TestCase):
         dt = parse(timestamp)
         self.assertEqual(dt.microsecond, 250000)
 
+        timestamp = "2009-01-01T10:02:03.2543Z"
+        dt = parse(timestamp)
+        self.assertEqual(dt.microsecond, 254300)
+
+    def test_excessive_precision(self) -> None:
+        """
+        Test that timestamps with more than six fractional digits
+        are correctly parsed and that the excessive precision is truncated.
+
+        For Python versions before 3.11, we are responsible for performing
+        the truncation.
+
+        """
+        timestamp = "2009-01-01T10:02:03.2500009Z"
+        dt = parse(timestamp)
+        self.assertEqual(dt.microsecond, 250000)
+
     def test_generate_microseconds(self) -> None:
         """
         Test generating timestamps with microseconds.

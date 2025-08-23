@@ -1,4 +1,5 @@
 import re
+import sys
 from datetime import datetime, timezone
 
 from .utils import datetime_utcoffset
@@ -55,14 +56,17 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     timestamp = re.sub("Z$", "+00:00", timestamp, flags=re.IGNORECASE)
 
     # Python releases prior to 3.11 only support three or six digits of fractional
-    # seconds. RFC 3339 is more lenient, so pad to six digits.
+    # seconds. RFC 3339 is more lenient, so pad to six digits and truncate any
+    # excessive digits.
     # This can be removed in October 2026, once Python 3.10 and earlier
     # have been retired.
-    timestamp = re.sub(
-        r"(\.)([0-9]+)(?=[+\-][0-9]{2}:[0-9]{2}$)",
-        lambda match: match.group(1) + match.group(2).ljust(6, "0"),
-        timestamp,
-    )
+    # noinspection PyUnreachableCode
+    if sys.version_info < (3, 11):
+        timestamp = re.sub(
+            r"(\.)([0-9]+)(?=[+\-][0-9]{2}:[0-9]{2}$)",
+            lambda match: match.group(1) + match.group(2).ljust(6, "0")[:6],
+            timestamp,
+        )
 
     dt_out = datetime.fromisoformat(timestamp)
 
