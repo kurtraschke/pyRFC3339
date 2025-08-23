@@ -12,5 +12,4 @@ pyRFC3339
    intro
    changes
    doc
-
-
+   license
