@@ -60,8 +60,8 @@ def generate(
     """
 
     if dt.tzinfo is None:
-        if accept_naive is True:
-            if utc is True:
+        if accept_naive:
+            if utc:
                 dt = dt.replace(tzinfo=timezone.utc)
             else:
                 raise ValueError(
@@ -70,7 +70,7 @@ def generate(
         else:
             raise ValueError("naive datetime and accept_naive is False")
 
-    if utc is True:
+    if utc:
         dt = dt.astimezone(timezone.utc)
 
     timestamp = dt.isoformat(timespec="microseconds" if microseconds else "seconds")
