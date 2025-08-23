@@ -8,20 +8,20 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     """
     Parse an :RFC:`3339`-formatted timestamp and return a :class:`datetime.datetime`.
 
-    If the timestamp is presented in UTC, then the `tzinfo` parameter of the
+    If the timestamp is presented in UTC, then the :attr:`~datetime.datetime.tzinfo` attribute of the
     returned `datetime` will be set to :attr:`datetime.timezone.utc`.
 
     >>> parse('2009-01-01T10:01:02Z')
     datetime.datetime(2009, 1, 1, 10, 1, 2, tzinfo=datetime.timezone.utc)
 
     Otherwise, a :class:`datetime.timezone` instance is created with the appropriate offset, and
-    the `tzinfo` parameter of the returned :class:`~datetime.datetime` is set to that value.
+    the :attr:`~datetime.datetime.tzinfo` attribute of the returned :class:`~datetime.datetime` is set to that value.
 
     >>> parse('2009-01-01T14:01:02-04:00')
     datetime.datetime(2009, 1, 1, 14, 1, 2, tzinfo=datetime.timezone(datetime.timedelta(days=-1, seconds=72000)))
 
-    However, if :meth:`parse()`  is called with ``utc=True``, then the returned
-    :class:`~datetime.datetime` will be normalized to UTC (and its ``tzinfo`` parameter set to
+    However, if :meth:`parse()`  is called with :python:`utc=True`, then the returned
+    :class:`~datetime.datetime` will be normalized to UTC (and its :attr:`~datetime.datetime.tzinfo` attribute set to
     :attr:`~datetime.timezone.utc`), regardless of the input timezone.
 
     >>> parse('2009-01-01T06:01:02-04:00', utc=True)
@@ -41,10 +41,10 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     ValueError: hour must be in 0..23
 
     :param str timestamp: the :RFC:`3339` timestamp to be parsed
-    :param bool utc: `True` to normalize the timestamp to UTC; `False` otherwise. Defaults to `False`.
-    :param bool produce_naive: `True` if the produced :class:`~datetime.datetime` instance should
-                               not have a timezone attached (that is, be 'naive'); `False` otherwise.
-                               Defaults to `False`.
+    :param bool utc: :const:`True` to normalize the timestamp to UTC; :const:`False` otherwise. Defaults to :const:`False`.
+    :param bool produce_naive: :const:`True` if the produced :class:`~datetime.datetime` instance should
+                               not have a timezone attached (that is, be 'naive'); :const:`False` otherwise.
+                               Defaults to :const:`False`.
     :return: the parsed timestamp
     :rtype: datetime.datetime
 

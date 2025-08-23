@@ -199,3 +199,9 @@ latex_documents = [
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 issues_github_path = 'kurtraschke/pyrfc3339'
+
+rst_prolog = """
+.. role:: python(code)
+    :language: python
+    :class: highlight
+"""

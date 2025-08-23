@@ -33,7 +33,7 @@ Homepage = "https://github.com/kurtraschke/pyrfc3339"
 Documentation = "https://pyrfc3339.readthedocs.io/"
 Repository = "https://github.com/kurtraschke/pyRFC3339.git"
 "Bug Tracker" = "https://github.com/kurtraschke/pyRFC3339/issues"
-Changelog = "https://github.com/kurtraschke/pyRFC3339/blob/master/CHANGES.rst"
+Changelog = "https://github.com/kurtraschke/pyRFC3339/blob/main/CHANGES.rst"
 
 [tool.setuptools]
 packages = ["pyrfc3339"]

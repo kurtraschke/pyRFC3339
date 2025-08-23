@@ -29,7 +29,7 @@ To install the latest version from `PyPI <https://pypi.org/>`_:
 
 To install the latest development version:
 
-``$ pip install https://github.com/kurtraschke/pyRFC3339/tarball/master#egg=pyRFC3339-dev``
+``$ pip install https://github.com/kurtraschke/pyRFC3339/tarball/main#egg=pyRFC3339-dev``
 
 Tests as well as enforcement of code style, formatting, and type safety are run with `tox <https://tox.wiki/>`_:
 
