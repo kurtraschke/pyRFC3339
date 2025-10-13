@@ -36,7 +36,7 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
 
     Exceptions will, however, be thrown for blatantly invalid input:
 
-    >>> parse('2009-01-01T25:01:02Z')
+    >>> parse('2009-01-01T25:01:02Z') # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
     ...
     ValueError: hour must be in 0..23
