@@ -24,6 +24,7 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
         os:
           - ubuntu-latest
           - macos-latest
@@ -47,10 +48,10 @@ jobs:
         run: echo "$USERPROFILE/.local/bin" >> $GITHUB_PATH
 
       - name: Install tox
-        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv --with tox-gh
+        run: uv tool install --python-preference only-managed --python 3.14 tox --with tox-uv --with tox-gh
 
       - name: Install Python
-        if: matrix.env != '3.13'
+        if: matrix.env != '3.14'
         run: uv python install --python-preference only-managed ${{ matrix.env }}
 
       - name: Setup test suite
@@ -83,7 +84,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install tox
-        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv
+        run: uv tool install --python-preference only-managed --python 3.14 tox --with tox-uv
 
       - name: Run test suite
         run: tox run -e docs
