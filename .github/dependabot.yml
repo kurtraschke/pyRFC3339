@@ -9,9 +9,13 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
   - package-ecosystem: "pip" # See documentation for possible values
     directories:
       - "/docs"
       - "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
