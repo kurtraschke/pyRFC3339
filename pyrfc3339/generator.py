@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 def generate(
@@ -11,9 +11,9 @@ def generate(
     """
     Generate an :RFC:`3339`-formatted timestamp from a :class:`datetime.datetime`.
 
-    >>> from datetime import datetime, timezone
+    >>> from datetime import datetime, UTC
     >>> from zoneinfo import ZoneInfo
-    >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, timezone.utc))
+    >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, UTC))
     '2009-01-01T12:59:59Z'
 
     The timestamp be normalized to UTC unless :python:`utc=False` is specified, in which case
@@ -62,7 +62,7 @@ def generate(
     if dt.tzinfo is None:
         if accept_naive:
             if utc:
-                dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.replace(tzinfo=UTC)
             else:
                 raise ValueError(
                     "cannot generate a local timestamp from a naive datetime"
@@ -71,11 +71,11 @@ def generate(
             raise ValueError("naive datetime and accept_naive is False")
 
     if utc:
-        dt = dt.astimezone(timezone.utc)
+        dt = dt.astimezone(UTC)
 
     timestamp = dt.isoformat(timespec="microseconds" if microseconds else "seconds")
 
-    if dt.tzinfo == timezone.utc:
+    if dt.tzinfo == UTC:
         timestamp = re.sub(r"\+00:00$", "Z", timestamp)
 
     return timestamp

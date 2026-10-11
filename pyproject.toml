@@ -43,22 +43,16 @@ packages = ["pyrfc3339"]
 [tool.mypy]
 strict = true
 
-[tool.flake8]
-max-line-length = 132
-
-[tool.isort]
-profile = "black"
-
 [tool.coverage.run]
 omit = ["pyrfc3339/tests/*"]
 
 [tool.tox]
 requires = ["tox>=4"]
-env_list = ["sort", "format", "style", "type", "3.11", "3.12", "3.13", "3.14", "3.15"]
+env_list = ["ruff-lint", "type", "ruff-format", "3.11", "3.12", "3.13", "3.14", "3.15"]
 skip_missing_interpreters = true
 
 [tool.tox.gh.python]
-"3.15" = ["sort", "format", "style", "type", "3.15"]
+"3.15" = ["ruff-lint", "type", "ruff-format", "3.15"]
 "3.14" = ["3.14"]
 "3.13" = ["3.13"]
 "3.12" = ["3.12"]
@@ -79,20 +73,15 @@ skip_install = true
 deps = ["mypy"]
 commands = [["mypy", "pyrfc3339"]]
 
-[tool.tox.env.sort]
+[tool.tox.env.ruff-lint]
 skip_install = true
-deps = ["isort"]
-commands = [["isort", "--check", "--diff", "pyrfc3339"]]
+deps = ["ruff"]
+commands = [["ruff", "check", "."]]
 
-[tool.tox.env.format]
+[tool.tox.env.ruff-format]
 skip_install = true
-deps = ["black"]
-commands = [["black", "--check", "--diff", "pyrfc3339"]]
-
-[tool.tox.env.style]
-skip_install = true
-deps = ["flake8", "flake8-pyproject"]
-commands = [["flake8", "pyrfc3339"]]
+deps = ["ruff"]
+commands = [["ruff", "format", "--check", "--diff", "."]]
 
 [tool.tox.env.docs]
 deps = ["-r docs/requirements.txt"]

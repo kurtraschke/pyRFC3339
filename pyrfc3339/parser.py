@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from .utils import datetime_utcoffset
 
@@ -57,7 +57,7 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     dt_out = datetime.fromisoformat(timestamp)
 
     if utc:
-        dt_out = dt_out.astimezone(timezone.utc)
+        dt_out = dt_out.astimezone(UTC)
 
     if produce_naive:
         if datetime_utcoffset(dt_out) == 0:

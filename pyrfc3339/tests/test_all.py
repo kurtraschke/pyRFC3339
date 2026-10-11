@@ -5,7 +5,7 @@ Test suite for pyRFC3339.
 
 import unittest
 import zoneinfo
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from zoneinfo import ZoneInfo
 
 from pyrfc3339 import generate, parse
@@ -25,11 +25,11 @@ class TestCore(unittest.TestCase):
         """
         timestamp = "2009-01-01T10:02:03+00:00"
         dt = parse(timestamp)
-        self.assertEqual(dt.tzinfo, timezone.utc)
+        self.assertEqual(dt.tzinfo, UTC)
 
         timestamp = "2009-01-01T10:02:03-00:00"
         dt = parse(timestamp)
-        self.assertEqual(dt.tzinfo, timezone.utc)
+        self.assertEqual(dt.tzinfo, UTC)
 
     def test_parse_microseconds(self) -> None:
         """
@@ -49,7 +49,7 @@ class TestCore(unittest.TestCase):
         Test generating timestamps with microseconds.
 
         """
-        dt = datetime(2009, 1, 1, 10, 2, 3, 500000, tzinfo=timezone.utc)
+        dt = datetime(2009, 1, 1, 10, 2, 3, 500000, tzinfo=UTC)
         timestamp = generate(dt, microseconds=True)
         self.assertEqual(timestamp, "2009-01-01T10:02:03.500000Z")
 
@@ -60,7 +60,7 @@ class TestCore(unittest.TestCase):
 
         """
         dt1 = parse("2009-01-01t10:01:02z")
-        dt2 = datetime(2009, 1, 1, 10, 1, 2, tzinfo=timezone.utc)
+        dt2 = datetime(2009, 1, 1, 10, 1, 2, tzinfo=UTC)
 
         self.assertEqual(dt1, dt2)
 
@@ -101,7 +101,7 @@ class TestCore(unittest.TestCase):
         Generate a UTC timestamp and parse it into a UTC datetime.
 
         """
-        dt1 = datetime.now(timezone.utc)
+        dt1 = datetime.now(UTC)
 
         dt2 = parse(generate(dt1, microseconds=True))
         self.assertEqual(dt1, dt2)
@@ -128,7 +128,7 @@ class TestCore(unittest.TestCase):
 
     @unittest.skip("fails due to python/cpython#120713")
     def test_three_digit_year(self) -> None:
-        dt = datetime(999, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+        dt = datetime(999, 1, 1, 0, 0, 0, tzinfo=UTC)
         self.assertEqual(generate(dt), "0999-01-01T00:00:00Z")
 
 
