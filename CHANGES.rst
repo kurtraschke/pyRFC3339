@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.1.1 (2026-10-10)
+------------------
+
+- Drop support for (and cease testing on) Python 3.9 and 3.10.
+  Begin testing on Python 3.14 and 3.15.
+  Remove a workaround for fractional seconds on Python versions prior to 3.11.
+- Replace ``flake8``, ``isort``, and ``black`` with ``ruff``;
+  correct failing ``ruff`` lints and reformat codebase.
+
 2.1.0 (2025-08-23)
 ------------------
 
