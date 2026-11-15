@@ -46,6 +46,10 @@ jobs:
         shell: bash
         run: echo "$USERPROFILE/.local/bin" >> $GITHUB_PATH
 
+      - name: Install legacy timezones on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata-legacy
+
       - name: Install tox
         run: uv tool install --python-preference only-managed --python 3.15 tox --with tox-uv --with tox-gh
 
