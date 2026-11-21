@@ -85,7 +85,7 @@ jobs:
       - name: Install tox
         run: uv tool install --python-preference only-managed --python 3.15 tox --with tox-uv
 
-      - name: Run test suite
+      - name: Build docs
         run: tox run -e docs
 
       - name: Upload static files as artifact

@@ -135,7 +135,7 @@ class TestCore(unittest.TestCase):
 class TestExhaustiveRoundtrip(unittest.TestCase):
     """
     This test case exhaustively tests parsing and generation by generating
-    a local RFC 3339 timestamp for every timezone supported by :mod:`zoneinfo`,
+    a local :RFC:`3339` timestamp for every timezone supported by :mod:`zoneinfo`,
     parsing that timestamp into a local datetime and a UTC datetime
     and asserting that those represent the same instant.
 

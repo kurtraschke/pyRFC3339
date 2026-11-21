@@ -31,8 +31,8 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/kurtraschke/pyrfc3339"
 Documentation = "https://pyrfc3339.readthedocs.io/"
-Repository = "https://github.com/kurtraschke/pyRFC3339.git"
-"Bug Tracker" = "https://github.com/kurtraschke/pyRFC3339/issues"
+Source = "https://github.com/kurtraschke/pyRFC3339.git"
+Issues = "https://github.com/kurtraschke/pyRFC3339/issues"
 Changelog = "https://github.com/kurtraschke/pyRFC3339/blob/main/CHANGES.rst"
 
 [tool.setuptools]
