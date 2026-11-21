@@ -1,4 +1,3 @@
-import re
 from datetime import UTC, datetime
 
 
@@ -20,11 +19,20 @@ def generate(
     it will use the timezone from the :class:`~datetime.datetime`'s :attr:`~datetime.datetime.tzinfo` attribute.
 
     >>> eastern = ZoneInfo('US/Eastern')
-    >>> dt = datetime(2009, 1, 1, 12, 59, 59, tzinfo=eastern)
+    >>> dt = datetime(2009, 1, 1, 12, 59, 59, 0, eastern)
     >>> generate(dt)
     '2009-01-01T17:59:59Z'
     >>> generate(dt, utc=False)
     '2009-01-01T12:59:59-05:00'
+
+    Timestamps which are explicitly in UTC will have their timezone offset set to 'Z', while those which are not UTC
+    but happen to be '+00:00' will remain unchanged.
+
+    >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, UTC))
+    '2009-01-01T12:59:59Z'
+    >>> london = ZoneInfo('Europe/London')
+    >>> generate(datetime(2009, 1, 1, 12, 59, 59, 0, london), utc=False)
+    '2009-01-01T12:59:59+00:00'
 
     Unless :python:`accept_naive=True` is specified, the :class:`~datetime.datetime` must not be naive.
 
@@ -75,7 +83,7 @@ def generate(
 
     timestamp = dt.isoformat(timespec="microseconds" if microseconds else "seconds")
 
-    if dt.tzinfo == UTC:
-        timestamp = re.sub(r"\+00:00$", "Z", timestamp)
+    if dt.tzinfo == UTC and timestamp.endswith("+00:00"):
+        timestamp = timestamp[:-6] + "Z"
 
     return timestamp
