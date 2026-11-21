@@ -1,4 +1,3 @@
-import re
 from datetime import UTC, datetime
 
 from .utils import datetime_utcoffset
@@ -50,9 +49,9 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
 
     """
 
-    # Python does not recognize "Z" as an alias for "+00:00", so we perform the
-    # substitution here.
-    timestamp = re.sub("Z$", "+00:00", timestamp, flags=re.IGNORECASE)
+    # Python only recognizes the 'Z' suffix, not 'z'. (python/cpython#80010)
+    if timestamp.endswith("z"):
+        timestamp = timestamp[:-1] + "Z"
 
     dt_out = datetime.fromisoformat(timestamp)
 
