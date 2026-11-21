@@ -8,4 +8,3 @@ Modules
    pyrfc3339
    generator
    parser
-   utils

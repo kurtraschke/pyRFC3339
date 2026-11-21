@@ -1,7 +1,5 @@
 from datetime import UTC, datetime
 
-from .utils import datetime_utcoffset
-
 
 def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> datetime:
     """
@@ -26,6 +24,29 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     >>> parse('2009-01-01T06:01:02-04:00', utc=True)
     datetime.datetime(2009, 1, 1, 10, 1, 2, tzinfo=datetime.timezone.utc)
 
+    If :meth:`parse()` is called with :python:`produce_naive=True`, then the returned
+    :class:`~datetime.datetime` will be naive (and its :attr:`~datetime.datetime.tzinfo` attribute set to
+    :python:`None`). This is not permitted for input timestamps which have a non-zero timezone offset, unless those
+    are normalized to UTC with the use of :python:`utc=True`.
+    The use of naive datetimes, is, as a matter of course, not recommended.
+
+    >>> parse('2009-01-01T06:01:02Z', produce_naive=True)
+    datetime.datetime(2009, 1, 1, 6, 1, 2)
+
+    >>> parse('2009-01-01T06:01:02+00:00', produce_naive=True)
+    datetime.datetime(2009, 1, 1, 6, 1, 2)
+
+    >>> parse('2009-01-01T06:01:02-00:00', produce_naive=True)
+    datetime.datetime(2009, 1, 1, 6, 1, 2)
+
+    >>> parse('2009-01-01T06:01:02-04:00', produce_naive=True) # doctest: +IGNORE_EXCEPTION_DETAIL
+    Traceback (most recent call last):
+    ...
+    ValueError: cannot produce a naive datetime from a local timestamp
+
+    >>> parse('2009-01-01T06:01:02-04:00', utc=True, produce_naive=True)
+    datetime.datetime(2009, 1, 1, 10, 1, 2)
+
     As parsing is delegated to :meth:`datetime.datetime.fromisoformat()`, certain
     timestamps which do not strictly adhere to :RFC:`3339` are nonetheless accepted.
 
@@ -43,7 +64,8 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
     :param bool utc: :const:`True` to normalize the timestamp to UTC; :const:`False` otherwise. Defaults to :const:`False`.
     :param bool produce_naive: :const:`True` if the produced :class:`~datetime.datetime` instance should
                                not have a timezone attached (that is, be 'naive'); :const:`False` otherwise.
-                               Defaults to :const:`False`.
+                               Defaults to :const:`False`. Not permitted for input timestamps which have
+                               a non-zero timezone offset.
     :return: the parsed timestamp
     :rtype: datetime.datetime
 
@@ -59,7 +81,7 @@ def parse(timestamp: str, utc: bool = False, produce_naive: bool = False) -> dat
         dt_out = dt_out.astimezone(UTC)
 
     if produce_naive:
-        if datetime_utcoffset(dt_out) == 0:
+        if dt_out.tzinfo == UTC:
             dt_out = dt_out.replace(tzinfo=None)
         else:
             raise ValueError("cannot produce a naive datetime from a local timestamp")
