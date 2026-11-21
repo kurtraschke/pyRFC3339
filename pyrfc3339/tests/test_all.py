@@ -49,7 +49,7 @@ class TestCore(unittest.TestCase):
         Test generating timestamps with microseconds.
 
         """
-        dt = datetime(2009, 1, 1, 10, 2, 3, 500000, tzinfo=UTC)
+        dt = datetime(2009, 1, 1, 10, 2, 3, 500000, UTC)
         timestamp = generate(dt, microseconds=True)
         self.assertEqual(timestamp, "2009-01-01T10:02:03.500000Z")
 
@@ -60,7 +60,7 @@ class TestCore(unittest.TestCase):
 
         """
         dt1 = parse("2009-01-01t10:01:02z")
-        dt2 = datetime(2009, 1, 1, 10, 1, 2, tzinfo=UTC)
+        dt2 = datetime(2009, 1, 1, 10, 1, 2, 0, UTC)
 
         self.assertEqual(dt1, dt2)
 
@@ -72,11 +72,11 @@ class TestCore(unittest.TestCase):
 
         """
 
-        dt1 = datetime(2024, 11, 8, 19, 17, 11, tzinfo=ZoneInfo("US/Eastern"))
+        dt1 = datetime(2024, 11, 8, 19, 17, 11, 0, ZoneInfo("US/Eastern"))
         ts1 = generate(dt1, utc=True)
         self.assertRegex(ts1, r"Z$")
 
-        dt2 = datetime(1863, 1, 10, 6, 0, tzinfo=ZoneInfo("Europe/London"))
+        dt2 = datetime(1863, 1, 10, 6, 0, 0, 0, ZoneInfo("Europe/London"))
         ts2 = generate(dt2, utc=False)
         self.assertRegex(ts2, r"\+00:00$")
 
